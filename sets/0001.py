@@ -1,23 +1,30 @@
-modalidade = int(input('Digite '1' para futebol, '2' para natação, '3' para vôlei e '4' para basquete '))
+escolha = [['futebol', 0],['natacao', 0],['volei', 0],['basquete', 0]]
 
-futebol = 0
-natacao = 0
-volei = 0
-basquete = 0
+matricula = 'SIM'
+while matricula == 'SIM':
+    cadastro = []
+    nome = input('Nome completo: ')
+    qtd = int(input('Quantos esportes pretende fazer? '))
+    cadastro.append(nome)
+    cadastro.append(qtd)
 
-verificar = 'SIM'
-
-while verificar == 'SIM':
-    if modalidade == '1':
-        futebol += 1
-    elif modalidade == '2':
-        natacao += 1
-    elif modalidade == '3':
-        volei += 1
-    elif modalidade == '4':
-        basquete += 1
+    for i in range(qtd):
+        modalidade = str(input('Em qual modalidade deseja matricular-se? '))
         
-    verificar = input('Deseja continuar verificando? ').upper()
+        for j in range(len(escolha)):
+            if modalidade == escolha[j][0]:
+                escolha[j][1] += 1
+                
+    matricula = input('Deseja continuar matriculando? ').upper()
 
-else:
-    
+print(cadastro)
+for n in cadastro:
+    if qtd > 1:
+        desconto = []
+        desconto.append(nome)
+
+for y in range(len(desconto)):
+    print(f'{y[0]} ganhou 50% de desconto na segunda modalidade!')
+
+for esporte, alunos in escolha:
+    print(f'{esporte.capitalize()}: {alunos} aluno(s)')
