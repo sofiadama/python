@@ -3,7 +3,7 @@ infos = []
 
 while True:
     cadastro = set()
-    nome = input('Nome completo: ')
+    nome = input('Nome completo: ').capitalize()
     cadastro.add(nome)
     
     qtd = int(input('Quantos esportes pretende fazer? '))
