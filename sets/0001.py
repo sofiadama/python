@@ -1,39 +1,47 @@
-escolha = [['futebol', 0], ['natacao', 0], ['volei', 0], ['basquete', 0]]
-matricula = 'SIM'
-cadastros = []
+esportes = [['futebol', 0], ['natação', 0], ['vôlei', 0], ['basquete', 0]]
+infos = []
 
-while matricula == 'SIM':
-    cadastro = {}
+while True:
+    cadastro = set()
     nome = input('Nome completo: ')
-    qtd = int(input('Quantos esportes pretende fazer? '))
-    cadastro['nome'] = nome
-    cadastro['modalidades'] = []
+    cadastro.add(nome)
     
+    qtd = int(input('Quantos esportes pretende fazer? '))
+
     for i in range(qtd):
         modalidade = input(f'{i+1}ª modalidade: ').lower()
-        cadastro['modalidades'].append(modalidade)
-        for j in range(len(escolha)):
-            if modalidade == escolha[j][0]:
-                escolha[j][1] += 1
-    
-    cadastros.append(cadastro)
-    matricula = input('Deseja continuar matriculando? ').upper()
+        cadastro.add(modalidade)
 
-def verificar_desconto(cadastros):
+        for j in range(len(esportes)):
+            if modalidade == esportes[j][0]:
+                esportes[j][1] += 1
+
+    infos.append(cadastro)
+
+    print()
+    matricular = input('Deseja continuar matriculando? ').upper()
+    if matricular != 'S':
+        break
+    print()
+
+def verificar_desconto(infos):
     desconto = []
-    for cadastro in cadastros:
-        if len(cadastro['modalidades']) > 1:
-            desconto.append(cadastro['nome'])
+    for cadastro in infos:
+    if qtd > 1:
+        for nome in range(len(infos)):
+            desconto.append(nome)
+            # arrumar 
     return desconto
 
-desconto = verificar_desconto(cadastros)
+desconto = verificar_desconto(infos)
+
 print()
 for nome in desconto:
     print(f'{nome} ganhou 50% de desconto na segunda modalidade!')
 
 print()
-for esporte, alunos in escolha:
+for esporte, alunos in esportes:
     print(f'{esporte.capitalize()}: {alunos} aluno(s)')
 
 print()
-print(f'Quantidade de pessoas cadastradas: {len(cadastros)}.')
+print(f'Quantidade de pessoas cadastradas: {len(infos)}.')
