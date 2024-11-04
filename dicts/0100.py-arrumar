@@ -1,0 +1,12 @@
+qtd_alunos = int(input('Quantidade de alunos: '))
+nomes_originais = {'Chaves', 'Kiko', 'Nhonho', 'Chiquinha'}
+ass_falsas = 0
+
+alunos_frequentes = int(input('Alunos que frequentam a aula: '))
+    
+for _ in range(alunos_frequentes):
+    nome = input('Nome: ')
+    for ass in nomes_originais:
+        if nome != ass:
+            ass_falsas += 1
+            print(ass_falsas)
