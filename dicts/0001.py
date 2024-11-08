@@ -1,37 +1,44 @@
-infos = []
-com_pets = list()
-sem_pets = list()
-qtd_pessoas = 0
+def cadastrar_pessoa():
+    cadastro = {}
+    cadastro['nome'] = input('NOME: ').title()
+    cadastro['idade'] = int(input('IDADE: '))
+    cadastro['pets'] = input('PETS (Sim/Não): ').capitalize()
+    return cadastro
+
+def verificar_posse_de_pets(cadastro, tem_pets, sem_pets):
+    if cadastro['pets'] == 'Sim':
+        tem_pets.append(cadastro['nome'])
+    elif cadastro['pets'] == 'Não' or cadastro['pets'] == 'Nao':
+        sem_pets.append(cadastro['nome'])
+
+def media_de_idades(geral):
+    soma_de_idades = sum(cadastro['idade'] for cadastro in geral)
+    return soma_de_idades / len(geral)
+
+def guardar_informaçoes(cadastro, geral):
+    geral.append(cadastro)
+
+def continuar_registros():
+    add_informacoes = input('Deseja adicionar informações? ').capitalize()
+    return add_informacoes == 'Sim'
+    
+geral = []
+tem_pets = []
+sem_pets = []
 
 while True:
-    cadastro = {}
-    cadastro['nome'] = input('Nome: ').capitalize()
-    qtd_pessoas += 1
-    cadastro['idade'] = int(input('Idade: '))
-    cadastro['pets'] = input('Possui pet(s)? ').upper()
-
-    infos.append(cadastro)
-    
-    if cadastro['pets'] == 'S':
-        com_pets.append(cadastro['nome'])
-    elif cadastro['pets'] == 'N':
-        sem_pets.append(cadastro['nome'])
-    else:
-        while cadastro['pets'] != 'S' and cadastro['pets'] != 'N':
-            cadastro['pets'] = input('Digite novamente (S ou N): ').upper()
+    cadastro = cadastrar_pessoa()
+    verificar_posse_de_pets(cadastro, tem_pets, sem_pets)
+    guardar_informaçoes(cadastro, geral)
 
     print()
-    add_informacoes = input('Deseja adicionar informações? ').upper()
-    if add_informacoes != 'S':
+    if not continuar_registros():
         break
     print()
 
-def media_de_idades():
-    total_idades = sum(cadastro['idade'] for cadastro in infos)
-    return total_idades / len(infos)
-    
 print()
-print(f'Pessoas cadastradas: {qtd_pessoas}')
-print(f'Média de idade do grupo: {media_de_idades():.1f}')
-print(f'Pessoas com pets: {com_pets}')
+print(f'Pessoas cadastradas: {len(geral)}')
+print(f'Média de idades: {media_de_idades(geral):.2f}')
+print(f'Pessoas com pets: {tem_pets}')
 print(f'Pessoas sem pets: {sem_pets}')
+       
