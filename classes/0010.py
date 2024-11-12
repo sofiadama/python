@@ -17,14 +17,22 @@ class Pessoa:
         self.peso = float(novo_peso)
         
 while True:
-    infos = Pessoa(input('Nome: '), int(input('Idade: ')), float(input('Peso: '))) 
+    nome = input('Nome: ')
+    idade = int(input('Idade: ')
+    peso = float(input('Peso: ')
+    
+    infos = Pessoa(nome, idade, peso) 
     
     att_infos = input('Deseja atualizar as informações? ').capitalize()
     if att_infos == 'Sim':
-        infos.atualizar_nome(nome)
-        infos.atualizar_idade(idade)
-        infos.atualizar_peso(peso)
+        infos.atualizar_nome()
+        infos.atualizar_idade()
+        infos.atualizar_peso()
         
+    print(f'Nome: {infos.nome}')
+    print(f'Idade: {infos.idade}')
+    print(f'Peso: {infos.peso}')
+    
     add_infos = input('Deseja adicionar informações? ').capitalize()
     if add_infos != 'Sim':
         break
