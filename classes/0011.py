@@ -32,9 +32,13 @@ def deseja_continuar():
 
 def controle_do_Funcionário():
     while True:
+        print('Iniciando novo ciclo de registro de funcionários...')
+        print('.' * 51)
+
         for i in range(3):
             print(f'{i+1}º REGISTRO:')
             print()
+
             nome = obter_funcionario()
             salario = obter_salario()
 
@@ -48,9 +52,11 @@ def controle_do_Funcionário():
 
             elif salario > 3000:
                 print(f'NOVO SALÁRIO: R$ {atualizaçao.aumentar_5():.2f}')
-            print()
+            print('.' * 51)
 
+        print()
         if not deseja_continuar():
+            print('Fechando o programa...')
             break
         print()
 
