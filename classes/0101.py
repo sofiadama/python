@@ -48,11 +48,17 @@ class NumDecimal:
 def obter_binario():
     return input(f'\nNÚMERO BINÁRIO: ') 
 
+def mostrar_menu():
+    print(f'\n(1) DECIMAL PARA BINÁRIO')
+    print('(2) BINÁRIO PARA DECIMAL')
+
 def main():
     while True:
-        try:
-            escolha = int(input('\n(1) DECIMAL PARA BINÁRIO \n(2) BINÁRIO PARA DECIMAL \n '))         
+        mostrar_menu()  
         
+        try:
+            escolha = int(input(f'\nEscolha uma opção: '))
+                  
             if escolha == 1:
                 numero = obter_decimal()
                             
@@ -69,8 +75,11 @@ def main():
                 
                 print(converter)
 
-        except ValueError:
-            print('Valor inválido.')
+            else:
+                print('Valor inválido. Escolha 1 ou 2.')
+
+        except ValueError as e:
+            print(f'Erro: {e}')
 
 if __name__ == '__main__':
     main()
