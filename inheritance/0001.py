@@ -7,17 +7,6 @@ class ClientesPetShop:
         self.nome_dono = nome_dono
         self.mensalidade = mensalidade
 
-class ClienteVIP:
-    def __init__(self, restriçao, vantagens):
-        self.restriçao = restriçao
-        self.vantagens = vantagens
-
-    def possui_restriçao(self):
-       print('Possui restrição alimentar!')
-    
-    def calcular_vantagens(self):
-        return "20% de desconto em pacote de banho e tosa!"
-
 def obter_raça():
     return input('Raça: ')
     
@@ -46,8 +35,7 @@ def obter_mensalidade():
 
 def verificar_cliente_vip():
     verificar = input('Possui convênio VIP? ').upper()
-    if verificar == 'SIM':
-        return ClienteVIP
+    return verificar == 'SIM'
 
 def imprimir_cadastros(cadastro):
     print(f'RAÇA: {cadastro.raça}')
@@ -57,8 +45,34 @@ def imprimir_cadastros(cadastro):
     print(f'NOME DO DONO: {cadastro.nome_dono}')
     print(f'MENSALIDADE: R$ {cadastro.mensalidade:.2f}')
 
+class ClienteVIP:
+    def __init__(self, restricao, vantagens):
+        self.restricao = restricao
+        self.vantagens = vantagens
+
+    def possui_restricao(self):
+        print('Possui restrição alimentar!')
+    
+    def obter_banhos():
+        try:
+            banhos = int(input('Banhos por mês: '))
+            return banhos
+        except ValueError:
+            print('Valor inválido.')
+            return 0
+    
+    def calcular_vantagens(self, banhos):
+        self.vantagens = banhos * 25
+
+    def __str__(self):
+        return f"A mensalidade é de R$ {self.vantagens:.2f}"
+
+def imprimir_VIP(extras):
+    print(f'Restrição alimentar: {extras.restricao}')
+    print(extras)
+
 def continuar_cadastros():
-    cadastrar = input('\nContinuar cadastrando? ').upper()
+    cadastrar = input('\nContinuar cadastrando?\n').upper()
     return cadastrar == 'SIM'
 
 def main():
@@ -69,12 +83,19 @@ def main():
         nome_animal = obter_nome_animal()
         nome_dono = obter_nome_dono()
         mensalidade = obter_mensalidade()
-
-        verificar_cliente_vip()
+        
         cadastro = ClientesPetShop(raça, peso, idade, nome_animal, nome_dono, mensalidade)
         
+        if verificar_cliente_vip():
+            
+            banhos = extras.obter_banhos()
+
+            extras.calcular_vantagens(banhos)
+            extras = ClienteVIP(restricao, vantagens)
+
         print('\nInformações do cliente\n')
         imprimir_cadastros(cadastro)
+        imprimir_VIP()
         
         if not continuar_cadastros():
             break
