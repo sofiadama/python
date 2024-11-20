@@ -1,85 +1,104 @@
-class NumBinario:
-    def __init__(self, numero):
-        self.numero = numero
-        self.num = []
-        
-    def dec2bin(self):
-        if self.numero == 0:
-            self.num == [0]
-            return
-        
-        while self.numero > 0:
-            resto = self.numero % 2
-            self.num.append(resto)
-            self.numero = self.numero // 2
-        
-        self.inverter_bits()
+class ClientesPetShop:
+    def __init__(self, raça, peso, idade, nome_animal, nome_dono, mensalidade):
+        self.raça = raça
+        self.peso = peso
+        self.idade = idade
+        self.nome_animal = nome_animal
+        self.nome_dono = nome_dono
+        self.mensalidade = mensalidade
+
+def obter_raça():
+    return input('Raça: ')
     
-    def inverter_bits(self):
-        self.num.reverse()
+def obter_peso():
+    while True:
+        try:
+            return float(input('Peso: '))
+        except ValueError:
+            print('Valor inválido.')
     
+def obter_idade():
+    while True:
+        try:
+            return float(input('Idade: '))
+        except ValueError:
+            print('Valor inválido.')
+    
+def obter_nome_animal():
+    return input('Nome do animal: ').title()
+    
+def obter_nome_dono():
+    return input('Nome do dono: ').title()
+    
+def obter_mensalidade():
+    return float(input('Mensalidade: '))
+
+def verificar_cliente_vip():
+    verificar = input('Possui convênio VIP? ').upper()
+    return verificar == 'SIM'
+
+def imprimir_cadastros(cadastro):
+    print(f'RAÇA: {cadastro.raça}')
+    print(f'PESO: {cadastro.peso} kgs')
+    print(f'IDADE: {cadastro.idade} anos/meses')
+    print(f'NOME DO ANIMAL: {cadastro.nome_animal}')
+    print(f'NOME DO DONO: {cadastro.nome_dono}')
+    print(f'MENSALIDADE: R$ {cadastro.mensalidade:.2f}')
+
+class ClienteVIP:
+    def __init__(self, restricao, vantagens):
+        self.restricao = restricao
+        self.vantagens = vantagens
+
+    def possui_restricao(self):
+        print('Possui restrição alimentar!')
+    
+    def obter_banhos():
+        try:
+            banhos = int(input('Banhos por mês: '))
+            return banhos
+        except ValueError:
+            print('Valor inválido.')
+            return 0
+    
+    def calcular_vantagens(self, banhos):
+        self.vantagens = banhos * 25
+
     def __str__(self):
-        return f"NÚMERO BINÁRIO: {''.join(map(str, self.num)).zfill(8)}"
+        return f"A mensalidade é de R$ {self.vantagens:.2f}"
 
-def obter_decimal():
-    return int(input(f'\nNÚMERO DECIMAL: '))
-    
-class NumDecimal:
-    def __init__(self, numero):
-        self.numero = numero
-        self.num = 0
+def imprimir_VIP(extras):
+    print(f'Restrição alimentar: {extras.restricao}')
+    print(extras)
 
-    def bin2dec(self):
-        bits = [int(bit) for bit in self.numero]
-        for pos, bit in enumerate(reversed(bits)):
-            if bit == 1:
-                peso = 2**(pos)
-                self.num += peso
-
-        if not self.validar_binario():
-            raise ValueError('Valor inválido.')
-        
-    def validar_binario(self):
-        return all(bit in '01' for bit in self.numero)
-    
-    def __str__(self):
-        return f"NÚMERO DECIMAL: {self.num}"
-    
-def obter_binario():
-    return input(f'\nNÚMERO BINÁRIO: ') 
-
-def mostrar_menu():
-    print(f'\n(1) DECIMAL PARA BINÁRIO')
-    print('(2) BINÁRIO PARA DECIMAL')
+def continuar_cadastros():
+    cadastrar = input('\nContinuar cadastrando?\n').upper()
+    return cadastrar == 'SIM'
 
 def main():
     while True:
-        mostrar_menu()  
+        raça = obter_raça() 
+        peso = obter_peso()
+        idade = obter_idade()
+        nome_animal = obter_nome_animal()
+        nome_dono = obter_nome_dono()
+        mensalidade = obter_mensalidade()
         
-        try:
-            escolha = int(input(f'\nEscolha uma opção: '))
-                  
-            if escolha == 1:
-                numero = obter_decimal()
-                            
-                converter = NumBinario(numero)
-                converter.dec2bin()
-                            
-                print(converter)
-                
-            elif escolha == 2:
-                numero = obter_binario()
-                
-                converter = NumDecimal(numero)
-                converter.bin2dec()
-                
-                print(converter)
+        cadastro = ClientesPetShop(raça, peso, idade, nome_animal, nome_dono, mensalidade)
+        
+        if verificar_cliente_vip():
+            
+            banhos = extras.obter_banhos()
 
-            else:
-                print('Valor inválido. Escolha 1 ou 2.')
+            extras.calcular_vantagens(banhos)
+            extras = ClienteVIP(restricao, vantagens)
 
-        except ValueError as e:
-            print(f'Erro: {e}')
+        print('\nInformações do cliente\n')
+        imprimir_cadastros(cadastro)
+        imprimir_VIP()
+        
+        if not continuar_cadastros():
+            break
 
 if __name__ == '__main__':
-    main()
+    main()    
