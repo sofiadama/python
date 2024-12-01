@@ -1,139 +1,109 @@
 class Clientes:
     def __init__(self):
         self.clientes = []
-        self.matriculas = []
-        
+
     def cadastrar_cliente(self, nome, idade, numero):
-        novo_cliente = {'nome': nome, 'idade': idade, 'numero': numero}
-        self.clientes.append(novo_cliente)
-    
-    def matricular_cliente(self, nome, idade, rg, cpf, numero, email):
-        matricula = {'nome': nome, 'idade': idade, 'rg': rg, 'cpf': cpf, 'numero': numero, 'email': email}
-        self.matriculas.append(matricula)
+        self.clientes.append({'nome': nome, 'idade': idade, 'numero': numero})
+
+    def listar_clientes(self):
+        print('\nLista de Clientes:\n')
+        for cliente in self.clientes:
+            print(cliente)
+
+class Alunos(Clientes):
+    def __init__(self):
+        super().__init__()
+        self.matriculas = []
+
+    def matricular_aluno(self, nome, idade, rg, cpf, numero, email):
+        self.matriculas.append({'nome': nome, 'idade': idade, 'rg': rg, 'cpf': cpf, 'numero': numero, 'email': email})
+
+    def buscar_aluno(self, nome):
+        for aluno in self.matriculas:
+            if aluno['nome'].title() == nome.title():
+                return aluno
+        print(f'Aluno "{nome}" não encontrado.')
+        return None
 
     def atualizar_dados(self, nome):
-        clientes_matriculados = [cliente for cliente in self.matriculas if cliente['nome'].title() == nome.title()]
-            
-        if not clientes_matriculados:
-            print('Nome não registrado.')
+        aluno = self.buscar_aluno(nome)
+        if not aluno:
             return
-        
-        if len(clientes_matriculados) > 1:
-            print('Há mais de um cliente com esse nome.' )
-            cpf = int(input(f"Tente pelo CPF: "))
-            
-            cliente_selecionado = [cliente for cliente in clientes_matriculados if cliente['cpf'] == cpf]
-        
-            if not cliente_selecionado:
-                print("CPF não encontrado entre os clientes com esse nome.")
-                return
-            
-            cliente_selecionado = cliente_selecionado[0]
-            
-        else:
-            cliente_selecionado = clientes_matriculados[0]
+
+        dados = {
+            1: ('Nome', str), 2: ('Idade', int), 3: ('RG', int),
+            4: ('CPF', int), 5: ('Número', int), 6: ('E-mail', str)
+        }
         
         while True:
-            mostrar_dados()
-
+            print('\nDADOS\n1. Nome\n2. Idade\n3. RG\n4. CPF\n5. Número\n6. E-mail')
             try:
-                dado = int(input('\nDigite qual dado quer alterar: '))
-                
-                if dado == 1:
-                    cliente_selecionado['nome'] = input('Nome correto: ')
-                elif dado == 2:
-                    cliente_selecionado['idade'] = int(input('Idade correta: '))
-                elif dado == 3:
-                    cliente_selecionado['rg'] = int(input('RG correto: '))
-                elif dado == 4:
-                    cliente_selecionado['cpf'] = int(input('CPF correto: '))
-                elif dado == 5:
-                    cliente_selecionado['numero'] = int(input('Número correto: '))
-                elif dado == 6:
-                    cliente_selecionado['email'] = int(input('E-mail correto: '))
-                else:
+                dado = int(input('\nEscolha o dado a alterar: '))
+                if dado not in dados:
                     print('Opção inválida!')
                     return
-                
+                info, tipo = dados[dado]
+                aluno[info] = tipo(input(f'{info}: '))
             except ValueError:
-                print('Por favor, digite um número válido.')
+                print('Valor inválido.')
 
-            if not deseja_atualizar():
+            if input('Atualizar outro dado? (Sim/Não): ').strip().capitalize() != 'Sim':
                 break
 
-def exibir_menu():
-    print('\nMENU\n')
-    print('1. Adicionar potencial cliente')
-    print('2. Adicionar potencial cliente indicado')
-    print('3. Matricular novo aluno')
-    print('4. Excluir aluno')
-    print('5. Atualizar dados')
-    print('6. Listar alunos')
-    print('7. Sair')
+    def remover_aluno(self, nome):
+        aluno = self.buscar_aluno(nome)
+        if aluno:
+            self.matriculas.remove(aluno)
+            print(f'Aluno "{nome}" removido com sucesso!\n')
 
-def mostrar_dados():
-    print('\nDADOS\n')
-    print('1. Nome')
-    print('2. Idade')
-    print('3. RG')
-    print('4. CPF')     
-    print('5. Número')
-    print('6. E-mail')
+    def listar_alunos(self):
+        print('\nLista de Alunos:\n')
+        for aluno in self.matriculas:
+            print(aluno)
 
-def deseja_atualizar():
-    atualizar = input('Deseja atualizar outra informação? ').strip().capitalize()
-    return atualizar == 'Sim'
+class ClientesIndicados(Clientes):
+    pass
 
-def processar_menu(clientes):
+def mostrar_menu():
+    print('\nMENU\n1. Adicionar cliente\n2. Adicionar cliente indicado\n3. Matricular aluno\n4. Atualizar dados\n5. Excluir aluno\n6. Listar clientes\n7. Listar alunos\n8. Sair')
+
+def processar_menu(clientes, alunos, clientes_indicados):
     while True:
-        exibir_menu()
-        
+        mostrar_menu()
         try:
-            opcao = int(input('\nDigite a opção escolhida (Nº): '))
-            
-            if opcao == 1 or opcao == 2:
-                nome = input('Nome: ')
-                idade = int(input('Idade: '))
-                numero = int(input('Telefone: '))
-
+            opcao = int(input('\nEscolha uma opção: '))
+            if opcao == 1:
+                nome, idade, numero = input('Nome: ').title(), int(input('Idade: ')), int(input('Telefone: ')) 
                 clientes.cadastrar_cliente(nome, idade, numero)
-            
+            elif opcao == 2:
+                nome, idade, numero = input('Nome: ').title(), int(input('Idade: ')), int(input('Telefone: ')))
+                clientes_indicados.cadastrar_cliente(nome, idade, numero)
             elif opcao == 3:
-                nome = input('Nome: ')
-                idade = int(input('Idade: '))
-                numero = int(input('Telefone: '))
-                email = input('E-mail: ')
-                cpf = int(input('CPF: '))
-                rg = int(input('RG: '))
-
-                clientes.matricular_cliente(nome, idade, numero, email, cpf, rg)
-            
+                nome = input('Nome: ').title()
+                idade, numero, email, cpf, rg = int(input('Idade: ')), int(input('Telefone: ')), input('E-mail: '), int(input('CPF: ')), int(input('RG: ')) 
+                alunos.matricular_aluno(nome, idade, rg, cpf, numero, email)
+                print('Aluno matriculado com sucesso!')
             elif opcao == 4:
-                nome = input('Digite o nome do cliente a ser excluído: ')
-                clientes.excluir_cliente(nome)
-            
+                nome = input('Nome do aluno: ').title()
+                alunos.atualizar_dados(nome)
             elif opcao == 5:
-                nome = input('Digite o nome do cliente a ser atualizado: ')
-                clientes.atualizar_dados(nome)
-
+                nome = input('Nome do aluno a remover: ').title()
+                alunos.remover_aluno(nome)
             elif opcao == 6:
                 clientes.listar_clientes()
-            
             elif opcao == 7:
-                print('Desligando...')
+                alunos.listar_alunos()
+            elif opcao == 8:
+                print('Saindo...')
                 break
-
             else:
-                print('Opção inválida! Tente novamente.')
-
-            print('\nAção concluída com sucesso!')
-
+                print('Opção inválida.')
         except ValueError:
-            print('Por favor, digite um número válido.')
+            print('Entrada inválida, digite um número.')
 
 def main():
-    clientes = Clientes()
-    processar_menu(clientes)
-    
+    clientes, alunos, clientes_indicados = Clientes(), Alunos(), ClientesIndicados()
+    processar_menu(clientes, alunos, clientes_indicados)
+
 if __name__ == "__main__":
     main()
